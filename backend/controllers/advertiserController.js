@@ -271,7 +271,41 @@ const testupload = async (req, res) => {
   console.log("content saved on: ", cid);
 };
 
-const sendNotification = async (req, res) => {};
+const sendNotification = async (req, res) => {
+  try {
+    console.log("sendin notif");
+    console.log(req.body);
+    const receiverAddress = req.body.receiverAddress;
+    const senderAddress = req.body.senderAddress;
+    const bid = req.body.bid;
+    const CAIP_ADDRESS = `eip155:5:${receiverAddress}`;
+    const apiResponse = await PushAPI.payloads.sendNotification({
+      signer,
+      type: 3, // target
+      identityType: 2, // direct payload
+      notification: {
+        title: `BID LOG`,
+        body: `BID LOG`,
+      },
+      payload: {
+        title: `BID LOG`,
+        body: `Bid of amount ${bid} by address ${senderAddress}`,
+        cta: "",
+        img: "",
+      },
+      recipients: CAIP_ADDRESS, // recipient address
+      channel: "eip155:5:0x48b51126138d794c17E222e265F43838E852a825", // your channel address
+      env: "staging",
+    });
+    console.log("Sent notification");
+
+    res.json({
+      status: "success",
+    });
+  } catch (err) {
+    console.log("Error ", err);
+  }
+};
 
 module.exports = {
   advertiserRegister,
