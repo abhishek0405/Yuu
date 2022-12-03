@@ -81,7 +81,7 @@ function AdvertiserProducts () {
         newProd.append( "tag_line",tag_line)
         newProd.append( "category", category)
         newProd.append( "demographic", demographic)
-        newProd.append( "address", walletAddress)
+        
         console.log(newProd)
        
         axios.post('http://localhost:5000/advertiser/addNewProduct', newProd, {

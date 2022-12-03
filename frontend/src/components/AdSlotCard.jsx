@@ -5,7 +5,7 @@ import React from 'react';
 import {ethers} from "ethers"
 import yuuAuctionABI from "../contracts/YuuAuctionABI.json"
 import Modal from 'react-modal';
-
+import axios from 'axios';
 //CONTRACT ADDRESS - 0xDd7958f9c91368f042CB347fBa82053A3f33E787
 
 const customStyles = {
@@ -29,23 +29,21 @@ const customStyles = {
 };
 
 
-
-
-
 Modal.setAppElement('#root');
 
 
 
-const AdSlotCard = ({ name, tags, location, ht, startDate, startTime, width, endDate, endTime, score, ipfsHash, currentBid1}) => {
+const AdSlotCard = ({ name,productId, tags, location, ht, startDate, startTime, width, endDate, endTime, score, ipfsHash, currentBid1}) => {
 
 
 
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [walletAddress,setWalletAddress] = useState([])
   let subtitle;
 
   const [contractInfo, setContractInfo] = useState({
-    address: "0xDd7958f9c91368f042CB347fBa82053A3f33E787"
+    address: "0x73676Aa5037bA6496aA20d3Db0447Bd63001b0BC"
   });
 
   const [owner, setOwner] = useState('')
@@ -88,6 +86,25 @@ var addGnosisToMetamask = function() {
 useEffect(() => {
   // Update the document title using the browser API
   addGnosisToMetamask();
+  async function connect(){
+    if(window.ethereum) {
+      console.log('detected');
+  
+      try {
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        setWalletAddress(accounts[0]);
+      } catch (error) {
+        console.log(error)
+        console.log('Error connecting...');
+      }
+  
+    } else {
+      alert('Meta Mask not detected');
+    }
+  }
+  connect();
 });
     
 
@@ -134,9 +151,23 @@ useEffect(() => {
     var contract = new ethers.Contract(contractInfo.address, yuuAuctionABI, _signer);
     console.log(contract)
     console.log(currentBid)
-    var a = await contract.bid(ipfsHash, {value: ethers.utils.parseEther(currentBid)})
+    try{
 
+    var a = await contract.bid(ipfsHash,productId, {value: ethers.utils.parseEther(currentBid)})
+    console.log(a);
+    var c = await contract.adSlots(ipfsHash);
+    console.log(c)
+    const postBody = {
+      receiverAddress:c.seller,
+      senderAddress:walletAddress,
+      bid:currentBid
+    }
+    console.log(postBody)
+    const res = await axios.post("http://localhost:5000/advertiser/notification",postBody)
     console.log(a)
+  }catch(err){
+    console.log(err);
+  }
 
   }
   
@@ -148,30 +179,41 @@ useEffect(() => {
 
 <>
 
-    
-      <div className="flex justify-between flex-col px-10 py-12 rounded-[20px]  ml-5 max-w-[370px] md:mr-10 sm:mr-5 mr-0 my-5 feedback-card">
-    
+  <div className="flex justify-between flex-col px-10 py-12 rounded-[20px]  ml-5 max-w-[370px] md:mr-10 sm:mr-5 mr-0 my-5 feedback-card">
+  <p className="font-poppins font-normal text-[18px] leading-[32.4px] text-white my-2">
+      publisher : {name}
+    </p>
+    {/* <img src={img} alt={name} className="w-[60px] h-[60px] rounded-full" /> */}
     <p className="font-poppins font-normal text-[18px] leading-[32.4px] text-white my-2">
-      Height : {ht}  Width : {width}
+      Height : {ht}
     </p>
 
     <p className="font-poppins font-normal text-[18px] leading-[32.4px] text-white my-2">
-      Location : {location}
+      Width : {width}
+    </p>
+    <p className="font-poppins font-normal text-[18px] leading-[32.4px] text-white my-2">
+      Position : {location}
     </p>
 
     <p className="font-poppins font-normal text-[18px] leading-[32.4px] text-white my-2">
-      Startdate : {startDate}   Time : {startTime}
+      Start Date : {startDate}
     </p>
-
     <p className="font-poppins font-normal text-[18px] leading-[32.4px] text-white my-2">
-      Enddate : {endDate}   Time : {endTime}
+      End Date : {endDate}
     </p>
+    <p className="font-poppins font-normal text-[18px] leading-[32.4px] text-white my-2">
+      Start Time : {startTime}
+    </p>
+    <p className="font-poppins font-normal text-[18px] leading-[32.4px] text-white my-2">
+     End Time : {endTime}
+    </p>
+   
 
     <div className="flex flex-row">
       
       <div className="flex flex-col">
         <h4 className="font-poppins font-semibold text-[20px] leading-[32px] text-gradient">
-          {name}
+          {/* {name} */}
         </h4>
         
       </div>
@@ -296,11 +338,11 @@ useEffect(() => {
     )
 
 
-
+  }
   
   
 
-};
+;
 
 
 export default AdSlotCard;

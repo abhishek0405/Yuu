@@ -1,5 +1,36 @@
 [
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_adSlotHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_productId",
+				"type": "string"
+			}
+		],
+		"name": "bid",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_adSlotHash",
+				"type": "string"
+			}
+		],
+		"name": "end",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
@@ -43,6 +74,24 @@
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_adSlotHash",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_highestBid",
+				"type": "uint256"
+			}
+		],
+		"name": "start",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -54,6 +103,19 @@
 		],
 		"name": "StartAuction",
 		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_adSlotHash",
+				"type": "string"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -115,38 +177,22 @@
 				"type": "address"
 			},
 			{
+				"internalType": "string",
+				"name": "productId",
+				"type": "string"
+			},
+			{
 				"internalType": "uint256",
 				"name": "highestBid",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalMoney",
 				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_adSlotHash",
-				"type": "string"
-			}
-		],
-		"name": "bid",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_adSlotHash",
-				"type": "string"
-			}
-		],
-		"name": "end",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -160,37 +206,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_adSlotHash",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_highestBid",
-				"type": "uint256"
-			}
-		],
-		"name": "start",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_adSlotHash",
-				"type": "string"
-			}
-		],
-		"name": "withdraw",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]

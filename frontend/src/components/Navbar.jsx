@@ -9,7 +9,8 @@ const Navbar =  () => {
   const [active, setActive] = useState("Home");
   const [toggle, setToggle] = useState(false);
   const [walletAddress, setWalletAddress] = useState("Get Started");
-  const [status, setStatus] = useState('')
+  const [advertiserStatus, setAdvertiserStatus] = useState('')
+  const [publisherStatus, setPublisherStatus] = useState('')
   
 
   useEffect(() => {
@@ -23,24 +24,39 @@ const Navbar =  () => {
             method: "eth_requestAccounts",
           });
           setWalletAddress(accounts[0]);
-          var advertiser = {
+          var address = {
             address :accounts[0]
           }
-          axios.post('http://localhost:5000/advertiser/advertiserLogin', advertiser, {
+          axios.post('http://localhost:5000/advertiser/advertiserLogin', address, {
               withCredentials: true
           })
           .then(res=> {console.log(res.data)
               if(res.data.status === 'error'){
                  console.log('not exists') 
-                 setStatus('/advertiser')
+                 setAdvertiserStatus('/advertiser')
               }
               else{
                   console.log('exists')
-                  setStatus('/advertiserDashboard')
+                  setAdvertiserStatus('/advertiserDashboard')
               }
           
           
           })
+          axios.post('http://localhost:5000/publisher/publisherLogin', address, {
+            withCredentials: true
+        })
+        .then(res=> {console.log(res.data)
+            if(res.data.status === 'error'){
+               console.log('not exists') 
+               setPublisherStatus('/publisher')
+            }
+            else{
+                console.log('exists pub')
+                setPublisherStatus('/publisherDashboard')
+            }
+        
+        
+        })
           .catch(err=>console.log(err.response.data));
 
         } catch (error) {
@@ -80,7 +96,7 @@ const Navbar =  () => {
             } mr-10`}
             onClick={() => setActive("Advertiser")}
           >
-            <a href={status}>{"Advertiser"}</a>
+            <a href={advertiserStatus}>{"Advertiser"}</a>
           </li>
 
           <li
@@ -90,7 +106,7 @@ const Navbar =  () => {
             } mr-10`}
             onClick={() => setActive("Publisher")}
           >
-            <a href={`/publisher`}>{"Publisher"}</a>
+            <a href={`${publisherStatus}`}>{"Publisher"}</a>
           </li>
 
           <li
