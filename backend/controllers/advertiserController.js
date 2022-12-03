@@ -247,7 +247,17 @@ const viewPublisherSlot = async (req, res) => {
 
 const placeBid = async (req, res) => {};
 
-const allProducts = async (req, res) => {};
+const allProducts = async (req, res) => {
+  console.log(req.query.address);
+  var allProds = await Product.find({ address: req.query.address });
+  const advertiser = await Advertiser.find({ address: req.query.address });
+  const advertiserName = advertiser[0].name;
+  console.log(allProds);
+  res.json({
+    name: advertiserName,
+    allProds: allProds,
+  });
+};
 
 const testupload = async (req, res) => {
   var pubobj = {
