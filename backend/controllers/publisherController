@@ -181,29 +181,45 @@ const fetchAdSlots = (req, res) => {
     });
 };
 
-const renderAd = (req, res) => {
-  console.log("rendering ad");
-  const hashId = req.body.hashId;
-  console.log(req.body);
-  //based on hashId, retrieve the product details of max bidder, url of product website
-  const name = "Eyeliner";
-  const pictureUrl =
-    "http://res.cloudinary.com/dpsmilpng/image/upload/v1669221648/gn9xhxr4siatwd7ltlkx.jpg";
-  const description = "Smudge proof, waterproof sharp eye-liner";
+const renderAd = async (req, res) => {
+  var SmartContractAddress = "0x733a9e92724E6471EE437Fc8FE7543aA04774381";
+  var SmartContractABI = fileContent;
+  // var address = "account adress";
+  //var privatekey = "private key of the above account address";
+  var myContract = new web3.eth.Contract(
+    SmartContractABI,
+    SmartContractAddress
+  );
+  myContract.methods
+    .adSlots(
+      "https://bafybeifajcy3ig3ahk5bg2hrrgmejankyj3imaosmq3a5bgbyzecxa7m3a.ipfs.w3s.link/data.json"
+    )
+    .call(async function (err, res1) {
+      //document.getElementById('amt').innerText = res;
+      console.log(res1);
+      const product = await Product.findById(res1.productId);
+      console.log("rendering ad");
+      const hashId = req.body.hashId;
+      console.log(req.body);
+      //based on hashId, retrieve the product details of max bidder, url of product website
+      const name = product.name;
+      const pictureUrl = product.picture;
+      const description = product.description;
 
-  //from hash ID, retrieve height,width
+      //from hash ID, retrieve height,width
 
-  const height = "300px";
-  const width = "300px";
+      const height = "300px";
+      const width = "300px";
 
-  res.json({
-    name: name,
-    pictureUrl: pictureUrl,
-    description: description,
-    height: height,
-    width: width,
-    siteUrl: "#",
-  });
+      res.json({
+        name: name,
+        pictureUrl: pictureUrl,
+        description: description,
+        height: height,
+        width: width,
+        siteUrl: "#",
+      });
+    });
 };
 
 const deployContract = async (req, res) => {
