@@ -249,6 +249,18 @@ const placeBid = async (req, res) => {};
 
 const allProducts = async (req, res) => {};
 
+const testupload = async (req, res) => {
+  var pubobj = {
+    name: "abc",
+    size: "5x4",
+    position: "left of screen",
+  };
+  var files = makeFileObjects(pubobj, "file1.json");
+  console.log(files);
+  var cid = storeFiles(files);
+  console.log("content saved on: ", cid);
+};
+
 const sendNotification = async (req, res) => {};
 
 module.exports = {
