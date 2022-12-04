@@ -158,7 +158,7 @@ const addNewProduct = async (req, res) => {
   };
   let newProduct = new Product(productObj);
   await newProduct.save();
-  const advertiser = await Advertiser.find({ address: req.query.address });
+  const advertiser = await Advertiser.find({ address: req.body.address });
   const advertiserName = advertiser[0].name;
   res.json({
     name: advertiserName,

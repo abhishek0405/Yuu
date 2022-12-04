@@ -46,7 +46,7 @@ const AdSlotCardPub = ({ name, tags, location, ht, startDate, startTime, width, 
   let subtitle;
 
   const [contractInfo, setContractInfo] = useState({
-    address: "0xDd7958f9c91368f042CB347fBa82053A3f33E787"
+    address: "0x73676Aa5037bA6496aA20d3Db0447Bd63001b0BC"
   });
 
   const [owner, setOwner] = useState('')
@@ -134,10 +134,13 @@ var addGnosisToMetamask = function() {
 
 
     e.preventDefault()
+    console.log('hello')
 
     await provider.send("eth_requestAccounts", []);
     var _signer = await provider.getSigner();
     var contract = new ethers.Contract(contractInfo.address, yuuAuctionABI, _signer);
+    console.log(contract)
+    console.log(ipfsHash)
     var a = await contract.end(ipfsHash)
 
     console.log(a)

@@ -23,7 +23,7 @@ export default function Marketplace() {
   var c = 0
   var updateData = []
   const [contractInfo, setContractInfo] = useState({
-    address: "0xDd7958f9c91368f042CB347fBa82053A3f33E787"
+    address: "0x73676Aa5037bA6496aA20d3Db0447Bd63001b0BC"
   });
 
   const [owner, setOwner] = useState('')
@@ -230,6 +230,7 @@ const onOptionChangeHandler3 = (event) => {
                         Object.assign(d, json)
                         Object.assign(d, {started : true})
                         Object.assign(d, {currentBid1 : parseInt(c.highestBid._hex, 16)})
+                        Object.assign(d,{productId:prod})
                         
                         console.log(ipfsData)
                         setIpfsData(prevState => [...prevState, d])
