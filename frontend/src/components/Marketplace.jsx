@@ -23,7 +23,7 @@ export default function Marketplace() {
   var c = 0
   var updateData = []
   const [contractInfo, setContractInfo] = useState({
-    address: "0x733a9e92724E6471EE437Fc8FE7543aA04774381"
+    address: "0x73676Aa5037bA6496aA20d3Db0447Bd63001b0BC"
   });
 
   const [owner, setOwner] = useState('')
@@ -113,9 +113,8 @@ const onOptionChangeHandler3 = (event) => {
                         Object.assign(d, {started : true})
                         Object.assign(d, {currentBid : parseInt(c.highestBid._hex, 16)})
                         
-                        
-                        setIpfsData(prevState => [...prevState, d])
                         console.log(ipfsData)
+                        setIpfsData(prevState => [...prevState, d])
                       } 
 
                       
@@ -211,15 +210,13 @@ const onOptionChangeHandler3 = (event) => {
                       //Object.assign(d, {ipfs_url : "https://"+i+".ipfs.w3s.link/file2.json"})
                       console.log(i)
                       var response = await fetch(i.ipfsHash);
-                      var json = await response.json();
-                      console.log("json",json)
-                      try{
+
                       await provider.send("eth_requestAccounts", []);
-                      var _signer =  provider.getSigner();
+                      var _signer = await provider.getSigner();
                       var contract = new ethers.Contract(contractInfo.address, yuuAuctionABI, _signer);
                       var c = await contract.adSlots(i.ipfsHash)
                       Object.assign(d, {ipfsHash : i.ipfsHash})
-                      console.log("c",c)
+                      console.log(c)
                       
                       if(c.started === true){
                         if(!response.ok)
@@ -229,17 +226,15 @@ const onOptionChangeHandler3 = (event) => {
                         console.log(parseInt(c.highestBid._hex, 16))
                         
 
-                       
+                        var json = await response.json();
                         Object.assign(d, json)
                         Object.assign(d, {started : true})
                         Object.assign(d, {currentBid1 : parseInt(c.highestBid._hex, 16)})
+                        Object.assign(d,{productId:prod})
                         
                         console.log(ipfsData)
                         setIpfsData(prevState => [...prevState, d])
-                      } } catch(err){
-                        console.log(err);
-                      }
-                      
+                      } 
 
                       
                     })

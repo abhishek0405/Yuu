@@ -63,14 +63,15 @@ const PublisherNavbar =  () => {
 
             
           <li
-            key={"adslots"}
+            key={"adbids"}
             className={`font-poppins font-normal cursor-pointer text-[16px] ${
               active === "Ad slots" ? "text-white" : "text-dimWhite"
             } mr-10`}
-            onClick={() => setActive("Ad slots")}
+            onClick={() => setActive("Ad Bids")}
           >
-            <a href={`/publisherAdslots`}>{"Ad slots"}</a>
+            <a href={`/publisherAdBids`}>{"Ad Bids"}</a>
           </li>
+          
           
 
           <li

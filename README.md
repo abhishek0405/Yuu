@@ -66,14 +66,6 @@ Now you can see our app running on localhost:3000!
 -   Spacy
 -   NLTK
 
-### Website screenshots
-<br>
-Homepage
-<p  align="center"><img height= "600" width = "400" src = "https://github.com/abhishek0405/Alzheimers-App/blob/main/readme_images/homepage.jpg"></p>
-<br>
-News section
-<p  align="center"><img height= "600" width = "400" src = "https://github.com/abhishek0405/Alzheimers-App/blob/main/readme_images/news.jpg"></p>
-<br>
 
 
 ### Team 😊
